@@ -8,5 +8,109 @@
     <artifactId>maven-plugins-template</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <!-- por defecto va a tomar valor "environment"-->
+        <env>environment</env>
+    </properties>
+
+    <build>
+        <filters>
+            <filter>src/main/resources/${env}.properties</filter>
+        </filters>
+        <resources>
+            <!--
+                Placeholders that are found from the files located in the configured resource
+                directories are replaced with the property values found from the profile
+                specific configuration file.
+            -->
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <!-- QA PROFILE-->
+    <profiles>
+        <profile>
+            <id>qaId</id>
+            <properties>
+                <env>environment-qa</env>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo message="**** USANDO EL ARCHIVO DE PROPERTIES DE | QA | => environment-qa.properties ****"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- PRODUCTION PROFILE-->
+        <profile>
+            <id>prodId</id>
+            <properties>
+                <env>environment-prod</env>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo message="**** USANDO EL ARCHIVO DE PROPERTIES DE | PROD | => environment-prod.properties ****"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-settings</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
