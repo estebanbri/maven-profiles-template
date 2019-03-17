@@ -5,4 +5,4 @@
 > mvn clean install -P {id}
 
 Nota:
-* {id} es el valor del elemento <id> definido en POM.xml.
+* {id} es el valor del elemento `<id>` definido en POM.xml.
